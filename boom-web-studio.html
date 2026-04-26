@@ -1,0 +1,656 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BOOM Web Studio — Custom Web Design That Gets Results | Sydney</title>
+<meta name="description" content="BOOM Web Studio builds high-converting custom websites for businesses in Sydney. No templates. Hand-coded. SEO built in. You own it forever. Book a free strategy call today.">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=JetBrains+Mono:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --bg:#060608;
+  --bg2:#0c0c10;
+  --bg3:#111116;
+  --surface:#18181f;
+  --surface2:#1e1e27;
+  --border:rgba(255,255,255,.06);
+  --border-h:rgba(255,255,255,.1);
+  --accent:#ff4d00;
+  --accent-light:#ff6b2b;
+  --accent-glow:rgba(255,77,0,.2);
+  --accent-bg:rgba(255,77,0,.06);
+  --accent2:#ffc800;
+  --green:#00e676;
+  --green-dim:rgba(0,230,118,.15);
+  --text:#a8adb8;
+  --text-dim:#5c6170;
+  --text-bright:#e4e6eb;
+  --white:#fff;
+  --font-display:'Bebas Neue',sans-serif;
+  --font-mono:'JetBrains Mono',monospace;
+  --font-body:'DM Sans',sans-serif;
+  --max-w:1140px;
+}
+html{scroll-behavior:smooth;font-size:16px}
+body{background:var(--bg);color:var(--text);font-family:var(--font-body);line-height:1.7;overflow-x:hidden;-webkit-font-smoothing:antialiased}
+a{color:inherit;text-decoration:none}
+::selection{background:var(--accent);color:var(--white)}
+
+/* NOISE OVERLAY */
+body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;opacity:.03;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+body>*{position:relative;z-index:1}
+
+/* LOADER */
+.loader{position:fixed;inset:0;z-index:9999;background:var(--bg);display:flex;align-items:center;justify-content:center;flex-direction:column;transition:opacity .6s,visibility .6s}
+.loader.done{opacity:0;visibility:hidden;pointer-events:none}
+.loader-icon{width:60px;height:60px;border:3px solid var(--border);border-top-color:var(--accent);border-radius:50%;animation:spin .8s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.loader-text{margin-top:1.2rem;font-family:var(--font-mono);font-size:.75rem;letter-spacing:.2em;text-transform:uppercase;color:var(--accent)}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:1000;padding:1rem 2rem;display:flex;align-items:center;justify-content:space-between;transition:all .4s}
+nav.scrolled{background:rgba(6,6,8,.96);backdrop-filter:blur(24px);border-bottom:1px solid var(--border)}
+.nav-logo{font-family:var(--font-display);font-size:1.6rem;color:var(--white);letter-spacing:.06em;display:flex;align-items:center;gap:.4rem}
+.nav-logo .boom{color:var(--accent)}
+.nav-links{display:flex;gap:1.8rem;align-items:center}
+.nav-links a{font-family:var(--font-body);font-size:.82rem;font-weight:500;color:var(--text-dim);transition:color .3s;letter-spacing:.02em}
+.nav-links a:hover{color:var(--white)}
+.nav-cta{background:var(--accent)!important;color:var(--white)!important;padding:.55rem 1.4rem;border-radius:6px;font-weight:600!important;font-size:.8rem!important;transition:all .3s!important;box-shadow:0 2px 12px var(--accent-glow)}
+.nav-cta:hover{box-shadow:0 4px 24px var(--accent-glow);transform:translateY(-1px)}
+.menu-toggle{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:4px}
+.menu-toggle span{width:22px;height:2px;background:var(--white);transition:all .3s;border-radius:2px}
+.menu-toggle.active span:nth-child(1){transform:rotate(45deg) translateY(5px)}
+.menu-toggle.active span:nth-child(2){opacity:0}
+.menu-toggle.active span:nth-child(3){transform:rotate(-45deg) translateY(-5px)}
+
+/* HERO */
+.hero{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:7rem 2rem 4rem;position:relative;overflow:hidden;text-align:center;
+  background-image:radial-gradient(circle,rgba(255,255,255,.045) 1px,transparent 1px);
+  background-size:32px 32px;}
+.hero::before{content:'';position:absolute;top:-20%;left:50%;transform:translateX(-50%);width:900px;height:900px;background:radial-gradient(circle,var(--accent-glow),transparent 65%);pointer-events:none;opacity:.65}
+.hero::after{content:'';position:absolute;bottom:-10%;right:-10%;width:600px;height:600px;background:radial-gradient(circle,rgba(255,77,0,.08),transparent 65%);pointer-events:none}
+.hero-content{max-width:800px;animation:heroIn .9s ease-out both}
+@keyframes heroIn{from{opacity:0;transform:translateY(40px)}to{opacity:1;transform:translateY(0)}}
+.hero-badge{display:inline-flex;align-items:center;gap:.5rem;background:var(--accent-bg);border:1px solid rgba(255,77,0,.2);border-radius:50px;padding:.4rem 1rem;margin-bottom:2rem;font-size:.78rem;font-weight:500;color:var(--accent-light)}
+.hero-badge .dot{width:7px;height:7px;background:var(--green);border-radius:50%;animation:pulse-dot 2s infinite;box-shadow:0 0 8px var(--green)}
+@keyframes pulse-dot{0%,100%{opacity:1}50%{opacity:.3}}
+.hero h1{font-family:var(--font-display);font-size:clamp(3rem,7vw,5.5rem);line-height:1;color:var(--white);margin-bottom:1.2rem;letter-spacing:.02em}
+.hero h1 .accent{color:var(--accent)}
+.hero-sub{font-size:1.15rem;color:var(--text);max-width:560px;margin:0 auto 2.5rem;line-height:1.8}
+.hero-btns{display:flex;gap:1rem;justify-content:center;flex-wrap:wrap}
+.btn-main{display:inline-flex;align-items:center;gap:.5rem;padding:.85rem 2.2rem;background:var(--accent);color:var(--white);font-family:var(--font-body);font-size:.9rem;font-weight:600;border-radius:8px;transition:all .3s;border:none;cursor:pointer;box-shadow:0 4px 20px var(--accent-glow)}
+.btn-main:hover{box-shadow:0 6px 30px rgba(255,77,0,.35);transform:translateY(-2px)}
+.btn-ghost{display:inline-flex;align-items:center;gap:.5rem;padding:.85rem 2.2rem;background:transparent;border:1px solid var(--border-h);color:var(--text-bright);font-family:var(--font-body);font-size:.9rem;font-weight:500;border-radius:8px;transition:all .3s;cursor:pointer}
+.btn-ghost:hover{border-color:var(--accent);color:var(--accent)}
+
+/* RESULTS BAR */
+.results-bar{padding:2.5rem 2rem;background:var(--bg2);border-top:1px solid var(--border);border-bottom:1px solid var(--border)}
+.results-inner{max-width:var(--max-w);margin:0 auto;display:grid;grid-template-columns:repeat(4,1fr);gap:2rem;text-align:center}
+.result-num{font-family:var(--font-display);font-size:2.4rem;color:var(--accent);letter-spacing:.02em}
+.result-label{font-size:.78rem;color:var(--text-dim);margin-top:.2rem;font-weight:500}
+
+/* PROBLEM SECTION */
+.problem{padding:6rem 2rem;max-width:var(--max-w);margin:0 auto}
+.problem-grid{display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:center}
+.tag{font-family:var(--font-mono);font-size:.68rem;letter-spacing:.2em;text-transform:uppercase;color:var(--accent);margin-bottom:1rem;font-weight:500}
+.s-title{font-family:var(--font-display);font-size:clamp(2rem,4vw,3rem);color:var(--white);line-height:1.1;margin-bottom:1.2rem;letter-spacing:.02em}
+.s-desc{font-size:1rem;color:var(--text);line-height:1.8;margin-bottom:1.5rem}
+.pain-list{list-style:none;display:flex;flex-direction:column;gap:.8rem}
+.pain-list li{display:flex;align-items:flex-start;gap:.7rem;font-size:.92rem;color:var(--text);line-height:1.6}
+.pain-list .x{color:#ff4444;font-weight:700;font-size:1rem;margin-top:2px;flex-shrink:0}
+.pain-list .check{color:var(--green);font-weight:700;font-size:1rem;margin-top:2px;flex-shrink:0}
+
+/* SERVICES */
+.services{padding:6rem 2rem;background:var(--bg2)}
+.services-inner{max-width:var(--max-w);margin:0 auto}
+.services-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1.2rem;margin-top:3rem}
+.svc-card{background:var(--bg);border:1px solid var(--border);border-radius:12px;padding:2rem;transition:all .4s;position:relative;overflow:hidden}
+.svc-card::after{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:var(--accent);transform:scaleX(0);transition:transform .4s;transform-origin:left;border-radius:12px 12px 0 0}
+.svc-card:hover{border-color:rgba(255,77,0,.15);transform:translateY(-4px);box-shadow:0 12px 40px rgba(0,0,0,.3)}
+.svc-card:hover::after{transform:scaleX(1)}
+.svc-icon{width:48px;height:48px;background:var(--accent-bg);border:1px solid rgba(255,77,0,.15);border-radius:10px;display:flex;align-items:center;justify-content:center;margin-bottom:1.2rem;font-size:1.3rem}
+.svc-card h3{font-family:var(--font-display);font-size:1.4rem;color:var(--white);margin-bottom:.5rem;letter-spacing:.03em}
+.svc-card p{font-size:.88rem;color:var(--text-dim);line-height:1.7}
+.svc-card .svc-tag{display:inline-block;margin-top:1rem;font-size:.72rem;font-weight:600;color:var(--accent);text-transform:uppercase;letter-spacing:.1em}
+
+/* SOCIAL PROOF */
+.proof{padding:6rem 2rem;max-width:var(--max-w);margin:0 auto}
+.proof-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.2rem;margin-top:3rem}
+.proof-card{background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:2rem;transition:all .4s}
+.proof-card:hover{border-color:rgba(255,77,0,.12)}
+.proof-stars{color:var(--accent2);font-size:.85rem;letter-spacing:2px;margin-bottom:.8rem}
+.proof-text{font-size:.9rem;color:var(--text);line-height:1.7;font-style:italic;margin-bottom:1.2rem}
+.proof-author{display:flex;align-items:center;gap:.7rem}
+.proof-avatar{width:38px;height:38px;border-radius:50%;background:var(--surface2);border:1px solid var(--border-h);display:flex;align-items:center;justify-content:center;font-family:var(--font-mono);font-size:.7rem;color:var(--accent);font-weight:600}
+.proof-name{font-size:.85rem;color:var(--white);font-weight:500}
+.proof-role{font-size:.72rem;color:var(--text-dim)}
+
+/* PROCESS */
+.process{padding:6rem 2rem;background:var(--bg2)}
+.process-inner{max-width:var(--max-w);margin:0 auto}
+.process-steps{display:grid;grid-template-columns:repeat(4,1fr);gap:1.2rem;margin-top:3rem}
+.step{background:var(--bg);border:1px solid var(--border);border-radius:12px;padding:2rem;position:relative;transition:all .4s}
+.step:hover{border-color:rgba(255,77,0,.15);transform:translateY(-3px)}
+.step-num{font-family:var(--font-display);font-size:3rem;color:var(--accent);opacity:.25;line-height:1;margin-bottom:.8rem}
+.step h3{font-family:var(--font-body);font-size:1rem;font-weight:600;color:var(--white);margin-bottom:.4rem}
+.step p{font-size:.82rem;color:var(--text-dim);line-height:1.6}
+
+/* PRICING */
+.pricing{padding:6rem 2rem;max-width:var(--max-w);margin:0 auto}
+.pricing-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.2rem;margin-top:3rem;align-items:start}
+.price-card{background:var(--bg2);border:1px solid var(--border);border-radius:14px;padding:2.5rem 2rem;transition:all .4s;position:relative}
+.price-card.featured{border-color:var(--accent);box-shadow:0 0 40px var(--accent-glow)}
+.price-card.featured .popular-tag{position:absolute;top:-12px;left:50%;transform:translateX(-50%);background:var(--accent);color:var(--white);padding:.3rem 1rem;border-radius:50px;font-size:.68rem;font-weight:600;text-transform:uppercase;letter-spacing:.1em;white-space:nowrap}
+.price-card h3{font-family:var(--font-display);font-size:1.6rem;color:var(--white);margin-bottom:.3rem;letter-spacing:.03em}
+.price-card .price{font-family:var(--font-display);font-size:2.8rem;color:var(--accent);margin:.8rem 0;letter-spacing:.02em}
+.price-card .price span{font-size:1rem;color:var(--text-dim);font-family:var(--font-body)}
+.price-card .price-desc{font-size:.85rem;color:var(--text-dim);margin-bottom:1.5rem;line-height:1.6}
+.price-features{list-style:none;display:flex;flex-direction:column;gap:.6rem;margin-bottom:2rem}
+.price-features li{display:flex;align-items:center;gap:.5rem;font-size:.85rem;color:var(--text)}
+.price-features .ck{color:var(--green);font-weight:700}
+.price-btn{display:block;text-align:center;padding:.75rem;border-radius:8px;font-size:.85rem;font-weight:600;transition:all .3s;cursor:pointer}
+.price-btn-main{background:var(--accent);color:var(--white);border:none;box-shadow:0 4px 16px var(--accent-glow)}
+.price-btn-main:hover{box-shadow:0 6px 24px rgba(255,77,0,.35);transform:translateY(-1px)}
+.price-btn-outline{background:transparent;border:1px solid var(--border-h);color:var(--text-bright)}
+.price-btn-outline:hover{border-color:var(--accent);color:var(--accent)}
+
+/* FAQ */
+.faq{padding:6rem 2rem;background:var(--bg2)}
+.faq-inner{max-width:700px;margin:0 auto}
+.faq-list{margin-top:3rem;display:flex;flex-direction:column;gap:.8rem}
+.faq-item{background:var(--bg);border:1px solid var(--border);border-radius:10px;overflow:hidden;transition:border-color .3s}
+.faq-item:hover{border-color:rgba(255,77,0,.12)}
+.faq-q{padding:1.2rem 1.5rem;display:flex;justify-content:space-between;align-items:center;cursor:pointer;font-size:.92rem;font-weight:500;color:var(--text-bright);transition:color .3s}
+.faq-q:hover{color:var(--accent)}
+.faq-q .arrow{transition:transform .3s;color:var(--text-dim);font-size:.8rem}
+.faq-item.open .faq-q .arrow{transform:rotate(180deg);color:var(--accent)}
+.faq-a{max-height:0;overflow:hidden;transition:max-height .4s ease,padding .3s;padding:0 1.5rem}
+.faq-item.open .faq-a{max-height:300px;padding:0 1.5rem 1.2rem}
+.faq-a p{font-size:.88rem;color:var(--text-dim);line-height:1.7}
+
+/* CTA SECTION */
+.cta-section{padding:6rem 2rem;text-align:center;position:relative}
+.cta-section::before{content:'';position:absolute;top:0;left:50%;transform:translateX(-50%);width:700px;height:700px;background:radial-gradient(circle,var(--accent-glow),transparent 65%);pointer-events:none;opacity:.4}
+.cta-content{max-width:650px;margin:0 auto;position:relative}
+.cta-content h2{font-family:var(--font-display);font-size:clamp(2.5rem,5vw,4rem);color:var(--white);margin-bottom:1rem;line-height:1.1;letter-spacing:.02em}
+.cta-content p{font-size:1.05rem;color:var(--text);margin-bottom:2.5rem;line-height:1.8}
+
+/* APPLICATION FORM */
+.apply{padding:6rem 2rem;background:var(--bg2)}
+.apply-inner{max-width:var(--max-w);margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:start}
+.apply-info h2{font-family:var(--font-display);font-size:clamp(2rem,3.5vw,2.8rem);color:var(--white);margin-bottom:1rem;letter-spacing:.02em;line-height:1.1}
+.apply-info p{font-size:1rem;color:var(--text);margin-bottom:2rem;line-height:1.8}
+.apply-details{display:flex;flex-direction:column;gap:1.5rem}
+.detail-item{display:flex;gap:1rem;align-items:flex-start}
+.detail-icon{width:40px;height:40px;border-radius:10px;background:var(--accent-bg);border:1px solid rgba(255,77,0,.15);display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:1rem}
+.detail-label{font-size:.7rem;text-transform:uppercase;letter-spacing:.15em;color:var(--accent);font-weight:500;margin-bottom:.2rem}
+.detail-value{font-size:.95rem;color:var(--text-bright)}
+
+.apply-form{background:var(--bg);border:1px solid var(--border);border-radius:14px;padding:2.5rem}
+.apply-form h3{font-family:var(--font-display);font-size:1.6rem;color:var(--white);margin-bottom:.4rem;letter-spacing:.03em}
+.apply-form .form-sub{font-size:.82rem;color:var(--text-dim);margin-bottom:1.8rem}
+.form-group{margin-bottom:1rem}
+.form-group label{display:block;font-size:.78rem;font-weight:500;color:var(--text-dim);margin-bottom:.4rem;text-transform:uppercase;letter-spacing:.08em}
+.form-group input,.form-group select,.form-group textarea{width:100%;background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:.75rem 1rem;color:var(--text-bright);font-family:var(--font-body);font-size:.9rem;transition:border-color .3s;outline:none}
+.form-group input:focus,.form-group select:focus,.form-group textarea:focus{border-color:var(--accent)}
+.form-group input::placeholder,.form-group textarea::placeholder{color:var(--text-dim)}
+.form-group select{appearance:none;cursor:pointer;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath d='M6 8L1 3h10z' fill='%235c6170'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 1rem center}
+.form-group select option{background:var(--bg);color:var(--text)}
+.form-group textarea{height:90px;resize:vertical}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+.form-submit{width:100%;padding:.85rem;background:var(--accent);color:var(--white);border:none;border-radius:8px;font-family:var(--font-body);font-size:.9rem;font-weight:600;cursor:pointer;transition:all .3s;margin-top:.5rem;box-shadow:0 4px 16px var(--accent-glow)}
+.form-submit:hover{box-shadow:0 6px 24px rgba(255,77,0,.35);transform:translateY(-1px)}
+
+/* FOOTER */
+footer{padding:3rem 2rem;border-top:1px solid var(--border);text-align:center}
+.footer-logo{font-family:var(--font-display);font-size:1.4rem;color:var(--white);margin-bottom:.6rem;letter-spacing:.04em}
+.footer-logo .boom{color:var(--accent)}
+.footer-links{display:flex;justify-content:center;gap:2rem;margin-bottom:.8rem;flex-wrap:wrap}
+.footer-links a{font-size:.8rem;color:var(--text-dim);transition:color .3s;font-weight:500}
+.footer-links a:hover{color:var(--accent)}
+.footer-copy{font-size:.72rem;color:var(--text-dim)}
+
+/* RESPONSIVE */
+@media(max-width:1024px){
+  .problem-grid{grid-template-columns:1fr}
+  .services-grid{grid-template-columns:1fr 1fr}
+  .proof-grid{grid-template-columns:1fr}
+  .process-steps{grid-template-columns:1fr 1fr}
+  .pricing-grid{grid-template-columns:1fr}
+  .pricing-grid .price-card{max-width:480px;margin:0 auto;width:100%}
+  .apply-inner{grid-template-columns:1fr}
+}
+@media(max-width:768px){
+  nav{padding:.8rem 1.2rem}
+  .nav-links{position:fixed;top:0;right:-100%;width:280px;height:100vh;background:var(--bg2);flex-direction:column;padding:4.5rem 1.5rem;gap:1.2rem;transition:right .4s;border-left:1px solid var(--border);z-index:9998}
+  .nav-links.open{right:0}
+  .menu-toggle{display:flex;z-index:9999}
+  .hero{padding:6rem 1.2rem 3rem}
+  .results-inner{grid-template-columns:repeat(2,1fr);gap:1.2rem}
+  .services-grid{grid-template-columns:1fr}
+  .process-steps{grid-template-columns:1fr}
+  .problem,.services,.proof,.process,.pricing,.faq,.cta-section,.apply{padding:4rem 1.2rem}
+  .results-bar{padding:2rem 1.2rem}
+  .form-row{grid-template-columns:1fr}
+  .hero-btns{flex-direction:column;align-items:center}
+  .btn-main,.btn-ghost{width:100%;justify-content:center}
+}
+
+/* REVEAL */
+.rv{opacity:0;transform:translateY(30px);transition:opacity .7s ease,transform .7s ease}
+.rv.vis{opacity:1;transform:translateY(0)}
+.rv-d1{transition-delay:.1s}.rv-d2{transition-delay:.2s}.rv-d3{transition-delay:.3s}.rv-d4{transition-delay:.4s}
+</style>
+</head>
+<body>
+
+<!-- LOADER -->
+<div class="loader" id="loader">
+  <div class="loader-icon"></div>
+  <div class="loader-text">Loading BOOM</div>
+</div>
+
+<!-- NAV -->
+<nav id="nav">
+  <a href="#" class="nav-logo"><span class="boom">BOOM</span>&nbsp;WEB STUDIO</a>
+  <div class="nav-links" id="navLinks">
+    <a href="#services">Services</a>
+    <a href="#results">Results</a>
+    <a href="#process">Process</a>
+    <a href="#pricing">Pricing</a>
+    <a href="#faq">FAQ</a>
+    <a href="#apply" class="nav-cta">Free Strategy Call</a>
+  </div>
+  <div class="menu-toggle" id="menuToggle" onclick="toggleMenu()">
+    <span></span><span></span><span></span>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-content">
+    <div class="hero-badge"><span class="dot"></span> Now taking on new clients</div>
+    <h1>WE BUILD WEBSITES THAT <span class="accent">ACTUALLY MAKE YOU MONEY</span></h1>
+    <p class="hero-sub">Custom-coded websites for businesses that are tired of paying for stuff that doesn't work. Based in Sydney. Results guaranteed.</p>
+    <div class="hero-btns">
+      <a href="#apply" class="btn-main">Book Your Free Strategy Call &rarr;</a>
+      <a href="#results" class="btn-ghost">See Our Results</a>
+    </div>
+  </div>
+</section>
+
+<!-- RESULTS BAR -->
+<section class="results-bar">
+  <div class="results-inner">
+    <div class="rv">
+      <div class="result-num">$0</div>
+      <div class="result-label">Monthly Retainer Fees</div>
+    </div>
+    <div class="rv rv-d1">
+      <div class="result-num">100%</div>
+      <div class="result-label">You Own Everything</div>
+    </div>
+    <div class="rv rv-d2">
+      <div class="result-num">14 Days</div>
+      <div class="result-label">Average Delivery</div>
+    </div>
+    <div class="rv rv-d3">
+      <div class="result-num">24/7</div>
+      <div class="result-label">Your Site Sells For You</div>
+    </div>
+  </div>
+</section>
+
+<!-- PROBLEM / SOLUTION -->
+<section class="problem">
+  <div class="problem-grid">
+    <div>
+      <div class="tag rv">THE PROBLEM</div>
+      <h2 class="s-title rv">You're Losing Customers Every Single Day Without A Proper Website</h2>
+      <p class="s-desc rv">Most businesses either have no website, a dodgy template site, or they're paying $300/month for something that looks like it was built in 2015. Sound familiar?</p>
+      <ul class="pain-list rv">
+        <li><span class="x">✕</span> Paying monthly fees for a Wix or Squarespace site that looks generic</li>
+        <li><span class="x">✕</span> No bookings, no enquiries, no leads coming from your website</li>
+        <li><span class="x">✕</span> Competitors are showing up on Google and you're nowhere to be found</li>
+        <li><span class="x">✕</span> No clear call-to-action — visitors land and leave without doing anything</li>
+        <li><span class="x">✕</span> A site that looks bad on mobile and drives customers away</li>
+      </ul>
+    </div>
+    <div>
+      <div class="tag rv">THE SOLUTION</div>
+      <h2 class="s-title rv">A Website That Works As Hard As You Do</h2>
+      <p class="s-desc rv">We build custom-coded websites designed to convert visitors into paying customers. No templates. No monthly fees. You own everything.</p>
+      <ul class="pain-list rv">
+        <li><span class="check">✓</span> Custom-built website that makes your business look legit</li>
+        <li><span class="check">✓</span> SEO built in so people actually find you on Google</li>
+        <li><span class="check">✓</span> Mobile-first design — because 70% of your visitors are on their phone</li>
+        <li><span class="check">✓</span> Clear calls-to-action that turn visitors into enquiries and bookings</li>
+        <li><span class="check">✓</span> Fast load times and clean code that Google actually rewards</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- SERVICES -->
+<section class="services" id="services">
+  <div class="services-inner">
+    <div class="tag rv">WHAT WE DO</div>
+    <h2 class="s-title rv">Two Services. One Goal:<br>Get You More Customers Online.</h2>
+    <p class="s-desc rv">We keep it focused. Custom web design and SEO — done properly, every time.</p>
+    <div class="services-grid">
+      <div class="svc-card rv">
+        <div class="svc-icon">&lt;/&gt;</div>
+        <h3>CUSTOM WEBSITES</h3>
+        <p>Hand-coded websites with premium animations, booking systems, Google Maps, reviews, and SEO — all custom-built for your brand. No Wix. No Squarespace. No templates. One payment, you own it forever.</p>
+        <div class="svc-tag">From $999</div>
+      </div>
+      <div class="svc-card rv rv-d1">
+        <div class="svc-icon">&#128269;</div>
+        <h3>SEO & GOOGLE RANKINGS</h3>
+        <p>Every site we build is optimised for Google from day one — fast load times, clean code structure, local SEO, and Google Business setup. Get found by customers who are already looking for what you do.</p>
+        <div class="svc-tag">Included in every build</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SOCIAL PROOF -->
+<section class="proof" id="results">
+  <div class="tag rv">REAL RESULTS</div>
+  <h2 class="s-title rv">Don't Take Our Word For It.</h2>
+  <p class="s-desc rv">Here's what real business owners are saying after working with us.</p>
+  <div class="proof-grid">
+    <div class="proof-card rv">
+      <div class="proof-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+      <p class="proof-text">"Our online presence has completely changed. The website they built is stunning and our bookings have gone up significantly since we launched."</p>
+      <div class="proof-author">
+        <div class="proof-avatar">TG</div>
+        <div>
+          <div class="proof-name">Restaurant Owner</div>
+          <div class="proof-role">Hospitality — Sydney</div>
+        </div>
+      </div>
+    </div>
+    <div class="proof-card rv rv-d1">
+      <div class="proof-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+      <p class="proof-text">"Professional, fast, and they actually understood what our business needed. The AI automation they set up saves us hours every week on repetitive tasks."</p>
+      <div class="proof-author">
+        <div class="proof-avatar">MK</div>
+        <div>
+          <div class="proof-name">Small Business Owner</div>
+          <div class="proof-role">Services — Bankstown</div>
+        </div>
+      </div>
+    </div>
+    <div class="proof-card rv rv-d2">
+      <div class="proof-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+      <p class="proof-text">"Way better than our old Squarespace site and we don't pay monthly fees anymore. The custom animations and design quality is on another level."</p>
+      <div class="proof-author">
+        <div class="proof-avatar">JL</div>
+        <div>
+          <div class="proof-name">Cafe Owner</div>
+          <div class="proof-role">Hospitality — Burwood</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROCESS -->
+<section class="process" id="process">
+  <div class="process-inner">
+    <div class="tag rv">HOW IT WORKS</div>
+    <h2 class="s-title rv">From Zero To Live In 4 Steps.</h2>
+    <p class="s-desc rv">No tech jargon. No confusion. Just a simple process that gets your website live fast.</p>
+    <div class="process-steps">
+      <div class="step rv">
+        <div class="step-num">01</div>
+        <h3>Free Strategy Call</h3>
+        <p>A quick 15-min call about your business, goals, and what you need. Free. No pressure. No obligations.</p>
+      </div>
+      <div class="step rv rv-d1">
+        <div class="step-num">02</div>
+        <h3>Design & Build</h3>
+        <p>We design and code your website. You get a preview link to review and request unlimited changes.</p>
+      </div>
+      <div class="step rv rv-d2">
+        <div class="step-num">03</div>
+        <h3>Your Content</h3>
+        <p>Send us your photos, menu, hours, and details. We make everything look clean and professional.</p>
+      </div>
+      <div class="step rv rv-d3">
+        <div class="step-num">04</div>
+        <h3>Launch & Grow</h3>
+        <p>Your site goes live. We hand over full ownership and make sure SEO is in place so Google can start sending you traffic.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PRICING -->
+<section class="pricing" id="pricing">
+  <div class="tag rv" style="text-align:center">SIMPLE PRICING</div>
+  <h2 class="s-title rv" style="text-align:center">No Hidden Fees. No Surprises.</h2>
+  <p class="s-desc rv" style="text-align:center;margin-left:auto;margin-right:auto">Pick the package that fits your business. Every project is custom — these are starting points.</p>
+  <div class="pricing-grid">
+    <div class="price-card rv">
+      <h3>STARTER</h3>
+      <div class="price">$999 <span>one-off</span></div>
+      <p class="price-desc">A solid custom website for businesses that need to get online fast.</p>
+      <ul class="price-features">
+        <li><span class="ck">✓</span> 1–5 page custom website</li>
+        <li><span class="ck">✓</span> Mobile responsive</li>
+        <li><span class="ck">✓</span> Basic SEO setup</li>
+        <li><span class="ck">✓</span> Contact form</li>
+        <li><span class="ck">✓</span> Google Maps integration</li>
+        <li><span class="ck">✓</span> 1 round of revisions</li>
+        <li><span class="ck">✓</span> Full code ownership</li>
+      </ul>
+      <a href="#apply" class="price-btn price-btn-outline">Get Started</a>
+    </div>
+    <div class="price-card featured rv rv-d1">
+      <div class="popular-tag">Most Popular</div>
+      <h3>PROFESSIONAL</h3>
+      <div class="price">$1,499 <span>one-off</span></div>
+      <p class="price-desc">Premium website with animations, booking system, and everything you need to convert.</p>
+      <ul class="price-features">
+        <li><span class="ck">✓</span> Everything in Starter</li>
+        <li><span class="ck">✓</span> Premium animations & effects</li>
+        <li><span class="ck">✓</span> Booking / reservation system</li>
+        <li><span class="ck">✓</span> Reviews integration</li>
+        <li><span class="ck">✓</span> Advanced SEO</li>
+        <li><span class="ck">✓</span> Unlimited revisions</li>
+        <li><span class="ck">✓</span> 30 days free support</li>
+      </ul>
+      <a href="#apply" class="price-btn price-btn-main">Get Started</a>
+    </div>
+    <div class="price-card rv rv-d2">
+      <h3>PREMIUM</h3>
+      <div class="price">$2,999</div>
+      <p class="price-desc">A fully custom build for businesses that want the best — multi-page, multi-feature, built to scale.</p>
+      <ul class="price-features">
+        <li><span class="ck">✓</span> Everything in Professional</li>
+        <li><span class="ck">✓</span> 6+ page custom website</li>
+        <li><span class="ck">✓</span> Advanced local SEO strategy</li>
+        <li><span class="ck">✓</span> Google Business Profile setup</li>
+        <li><span class="ck">✓</span> Custom animations & interactions</li>
+        <li><span class="ck">✓</span> Priority delivery</li>
+        <li><span class="ck">✓</span> Ongoing support available</li>
+      </ul>
+      <a href="#apply" class="price-btn price-btn-outline">Book a Call</a>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="faq" id="faq">
+  <div class="faq-inner">
+    <div class="tag rv" style="text-align:center">FAQ</div>
+    <h2 class="s-title rv" style="text-align:center">Got Questions?</h2>
+    <div class="faq-list">
+      <div class="faq-item rv">
+        <div class="faq-q" onclick="toggleFaq(this)">How long does it take to build my website? <span class="arrow">▼</span></div>
+        <div class="faq-a"><p>Most websites are completed within 10–14 days from the time we receive your content. Complex projects with multiple pages and custom features may take a bit longer, but we'll always give you a clear timeline upfront.</p></div>
+      </div>
+      <div class="faq-item rv rv-d1">
+        <div class="faq-q" onclick="toggleFaq(this)">Do I have to pay monthly fees? <span class="arrow">▼</span></div>
+        <div class="faq-a"><p>No. You pay once, and you own the website forever. The only ongoing costs are your domain name (around $15/year) and hosting (from $5/month). We can recommend affordable options and help you set it up.</p></div>
+      </div>
+      <div class="faq-item rv rv-d2">
+        <div class="faq-q" onclick="toggleFaq(this)">What if I need changes after launch? <span class="arrow">▼</span></div>
+        <div class="faq-a"><p>We offer affordable monthly support plans starting from $99/month, or you can request one-off changes at an hourly rate. We can also teach you how to make basic updates yourself — your choice.</p></div>
+      </div>
+      <div class="faq-item rv rv-d3">
+        <div class="faq-q" onclick="toggleFaq(this)">Do you build on Wix, Squarespace, or WordPress? <span class="arrow">▼</span></div>
+        <div class="faq-a"><p>No. Every website we build is custom-coded from scratch. This means faster load times, better SEO, unique design, and no platform lock-in. You get clean code that you fully own — not a template.</p></div>
+      </div>
+      <div class="faq-item rv rv-d4">
+        <div class="faq-q" onclick="toggleFaq(this)">What industries do you work with? <span class="arrow">▼</span></div>
+        <div class="faq-a"><p>We work with all types of local businesses — restaurants, cafes, tradies, salons, gyms, real estate, professional services, and more. If you need a website that brings in customers, we can help.</p></div>
+      </div>
+      <div class="faq-item rv">
+        <div class="faq-q" onclick="toggleFaq(this)">Will my website show up on Google? <span class="arrow">▼</span></div>
+        <div class="faq-a"><p>Yes — SEO is built into every site we build, not added as an afterthought. We handle technical SEO, page structure, load speed, and local optimisation so Google can find and rank your site. Results improve over time, but we set you up properly from day one.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-section">
+  <div class="cta-content">
+    <div class="tag rv">READY TO GROW?</div>
+    <h2 class="rv">STOP LOSING CUSTOMERS TO COMPETITORS WHO HAVE A BETTER WEBSITE</h2>
+    <p class="rv">Book a free 15-minute strategy call. We'll look at your current setup, tell you exactly what's missing, and give you a plan to start getting more customers online. No pressure. No sales pitch.</p>
+    <a href="#apply" class="btn-main rv">Book Your Free Call &rarr;</a>
+  </div>
+</section>
+
+<!-- APPLICATION / CONTACT FORM -->
+<section class="apply" id="apply">
+  <div class="apply-inner">
+    <div class="apply-info">
+      <div class="tag rv">LET'S TALK</div>
+      <h2 class="rv">BOOK YOUR FREE STRATEGY CALL</h2>
+      <p class="rv">Fill in the form and we'll get back to you within 24 hours to schedule a quick call. No commitment. No pressure. Just a conversation about how to grow your business online.</p>
+      <div class="apply-details rv">
+        <div class="detail-item">
+          <div class="detail-icon">&#9993;</div>
+          <div>
+            <div class="detail-label">Email</div>
+            <div class="detail-value">harryln.official@gmail.com</div>
+          </div>
+        </div>
+        <div class="detail-item">
+          <div class="detail-icon">&#9742;</div>
+          <div>
+            <div class="detail-label">Phone</div>
+            <div class="detail-value">0452 359 389</div>
+          </div>
+        </div>
+        <div class="detail-item">
+          <div class="detail-icon">&#9906;</div>
+          <div>
+            <div class="detail-label">Location</div>
+            <div class="detail-value">Sydney, NSW Australia</div>
+          </div>
+        </div>
+        <div class="detail-item">
+          <div class="detail-icon">&#9201;</div>
+          <div>
+            <div class="detail-label">Response Time</div>
+            <div class="detail-value">Within 24 hours</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="apply-form rv">
+      <h3>GET YOUR FREE QUOTE</h3>
+      <p class="form-sub">Takes less than 2 minutes. We'll be in touch within 24 hours.</p>
+      <form onsubmit="event.preventDefault();this.querySelector('.form-submit').textContent='Sent! We\'ll be in touch 🔥';this.querySelector('.form-submit').style.background='#00e676';">
+        <div class="form-row">
+          <div class="form-group">
+            <label>Your Name *</label>
+            <input type="text" placeholder="John Smith" required>
+          </div>
+          <div class="form-group">
+            <label>Business Name</label>
+            <input type="text" placeholder="Smith's Cafe">
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>Email *</label>
+            <input type="email" placeholder="john@email.com" required>
+          </div>
+          <div class="form-group">
+            <label>Phone</label>
+            <input type="tel" placeholder="04XX XXX XXX">
+          </div>
+        </div>
+        <div class="form-group">
+          <label>What do you need?</label>
+          <select>
+            <option value="">Select a service...</option>
+            <option>Custom Website</option>
+            <option>Website Redesign</option>
+            <option>SEO & Google Rankings</option>
+            <option>Website + SEO Package</option>
+            <option>Not sure yet — just want to chat</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Tell us about your project</label>
+          <textarea placeholder="What does your business do? What are you looking for?"></textarea>
+        </div>
+        <button type="submit" class="form-submit">Book My Free Strategy Call &rarr;</button>
+      </form>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo"><span class="boom">BOOM</span> WEB STUDIO</div>
+  <div class="footer-links">
+    <a href="#services">Services</a>
+    <a href="#results">Results</a>
+    <a href="#process">Process</a>
+    <a href="#pricing">Pricing</a>
+    <a href="#faq">FAQ</a>
+    <a href="#apply">Contact</a>
+  </div>
+  <p class="footer-copy">&copy; 2026 BOOM Web Studio. Custom Web Design. Sydney, Australia.</p>
+</footer>
+
+<script>
+window.addEventListener('load',()=>{setTimeout(()=>document.getElementById('loader').classList.add('done'),1200)});
+
+const nav=document.getElementById('nav');
+window.addEventListener('scroll',()=>{nav.classList.toggle('scrolled',window.scrollY>50)});
+
+function toggleMenu(){
+  document.getElementById('navLinks').classList.toggle('open');
+  document.getElementById('menuToggle').classList.toggle('active');
+}
+document.querySelectorAll('.nav-links a').forEach(a=>a.addEventListener('click',()=>{
+  document.getElementById('navLinks').classList.remove('open');
+  document.getElementById('menuToggle').classList.remove('active');
+}));
+
+function toggleFaq(el){
+  const item=el.parentElement;
+  document.querySelectorAll('.faq-item').forEach(i=>{if(i!==item)i.classList.remove('open')});
+  item.classList.toggle('open');
+}
+
+const obs=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('vis');obs.unobserve(e.target)}});
+},{threshold:.1,rootMargin:'0px 0px -40px 0px'});
+document.querySelectorAll('.rv').forEach(el=>obs.observe(el));
+</script>
+</body>
+</html>
